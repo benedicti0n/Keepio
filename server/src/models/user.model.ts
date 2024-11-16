@@ -13,7 +13,7 @@ const userSchema = new Schema<IUserTypes>({
         required: true,
     },
     password: {
-        types: String,
+        type: String,
         required: true,
     }
 }, { timestamps: true })

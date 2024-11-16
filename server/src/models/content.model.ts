@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose"
 
 interface IContentTypes {
     link: string;
-    type: ["image", "video", "article", "audio"];
+    type: string;
     title: string;
     tags: Types.ObjectId[];
     userId: Types.ObjectId;
@@ -15,6 +15,7 @@ const contentSchema = new Schema<IContentTypes>({
         required: true
     },
     type: {
+        type: String,
         enum: ["image", "video", "article", "audio"],
         required: true,
     },
