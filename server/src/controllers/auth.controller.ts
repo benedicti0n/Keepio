@@ -8,8 +8,8 @@ export const handleSignUp = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body
 
-        const user = await User.find({ username })
-        if (user) {
+        const user = await User.findOne({ username: username })
+        if (!!user) {
             res.status(403).json({ message: "User already exists with this username" })
         }
 
@@ -17,7 +17,7 @@ export const handleSignUp = async (req: Request, res: Response) => {
 
         const newUser = new User({
             username,
-            hashedPassword
+            password: hashedPassword,
         })
 
         await newUser.save()
@@ -43,10 +43,10 @@ export const handleLogin = async (req: Request, res: Response) => {
         }
 
         const secretKey = process.env.SECRET_KEY as string
-        const token = jwt.sign({ userId: user?._id }, secretKey, { expiresIn: '24hr' })
+        const token = jwt.sign({ userId: user?._id }, secretKey, { expiresIn: '24h' })
 
         res.send(token)
     } catch (error) {
-
+        res.status(500).json({ message: "Server error" })
     }
 }
