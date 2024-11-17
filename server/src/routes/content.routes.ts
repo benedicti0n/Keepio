@@ -1,5 +1,5 @@
 import express from "express"
-import { createContent, fetchAllContent } from "../controllers/content.controllers"
+import { createContent, fetchAllContent } from "../controllers/content.controller"
 import { verifyToken } from "../middlewares/verifyToken.middleware"
 
 const router = express.Router()
