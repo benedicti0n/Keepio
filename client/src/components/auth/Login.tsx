@@ -1,5 +1,9 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Button from '../../ui/Button';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const serverUrl = import.meta.env.VITE_SERVER_URL as string
 
 interface Inputs {
     username: string;
@@ -7,8 +11,28 @@ interface Inputs {
 }
 
 const Login = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const username = data.username
+        const password = data.password
+        try {
+            const response = await axios.post(`${serverUrl}/api/v1/login`, {
+                username,
+                password
+            })
+            const authToken = response.data
+            if (!authToken) {
+                console.log("no token");
+            }
+
+            localStorage.setItem("token", authToken)
+
+            navigate("/home")
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4">

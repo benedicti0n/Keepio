@@ -3,6 +3,7 @@ import Button from "../../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signupSchema } from "../../schema/auth.schema";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface SignupInput {
     username: string;
@@ -11,26 +12,31 @@ interface SignupInput {
 }
 
 // const PORT = import.meta.env.PORT
-const serverUrl = import.meta.env.BASE_URL as string || "http://localhost:8080"
+const serverUrl = import.meta.env.VITE_SERVER_URL as string || "http://localhost:8080"
 
 const Signup = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm<SignupInput>({
         resolver: zodResolver(signupSchema)
     })
     const onSubmit: SubmitHandler<SignupInput> = async (data) => {
-        const formData = new FormData()
-
-        formData.append("username", data.username)
-        formData.append("password", data.password)
-
-        console.log(formData);
+        const username = data.username
+        const password = data.password
 
         try {
-            const response = await axios.post(`${serverUrl}/api/v1/signup`, { formData })
-            console.log(response);
+            const response = await axios.post(`${serverUrl}/api/v1/signup`, {
+                username,
+                password
+            })
+
+            navigate('/login')
 
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error(error.response.data.message);
+            } else {
+                console.error('An error occurred:', error);
+            }
         }
     };
 
