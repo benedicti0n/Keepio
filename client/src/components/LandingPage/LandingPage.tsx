@@ -1,4 +1,4 @@
-const Homepage = () => {
+const LandingPage = () => {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4">
             <a
@@ -26,4 +26,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage
+export default LandingPage
