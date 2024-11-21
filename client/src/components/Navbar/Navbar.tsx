@@ -10,7 +10,7 @@ const Navbar = () => {
         navigate("/login")
     }
     return (
-        <div className='w-full fixed top-0 px-4 py-2 flex justify-between items-center backdrop-blur-md bg-white/30 border-b border-gray-300'>
+        <div className='w-full px-4 py-2 flex justify-between items-center backdrop-blur-md bg-white/30 border-b border-gray-300'>
             <div className='flex items-center gap-2'>
                 <img src="/logo.png" alt="Keepio logo" className='h-8 w-8' />
                 <h1 className='font-semibold text-xl'>Keepio</h1>
